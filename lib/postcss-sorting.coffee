@@ -24,8 +24,11 @@ module.exports =
 
     if fs.existsSync(config.path)
       fs.readFileSync config.path.trim(), 'utf8', (error, data) ->
-        if error then throw error
-        require(config.path)
+        if error
+          atom.notifications?.addError("Failed to read config file '#{config.path}'")
+          throw error
+
+        return require(config.path)
     else
       return config.style
 
@@ -40,8 +43,11 @@ module.exports =
 
     postcss([
       require('postcss-sorting')
-    ]).process(src.content, options).then (result) ->
+    ]).process(src.content, options).then((result) ->
       if src.isSelection
         editor.insertText(result.css)
       else
         fs.writeFileSync(src.path, result.css)
+      atom.notifications?.addSuccess('PostCSS Sorting succeeded!')
+    ).catch (error) ->
+      atom.notifications?.addError("PostCSS Sorting error: #{error.reason}", {detail: error.message})
