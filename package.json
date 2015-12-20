@@ -1,7 +1,7 @@
 {
   "name": "postcss-sorting",
   "main": "./lib/postcss-sorting",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Atom editor plugin to sort CSS rules content with specified order.",
   "activationCommands": {
     "atom-workspace": "postcss-sorting:run"
