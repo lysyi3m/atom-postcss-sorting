@@ -1,8 +1,8 @@
 '.platform-darwin atom-text-editor':
-  'cmd-shift-p': 'atom-postcss-sorting:run'
+  'cmd-shift-s': 'atom-postcss-sorting:run'
 
 '.platform-win32 atom-text-editor':
-  'ctrl-shift-p': 'atom-postcss-sorting:run'
+  'ctrl-shift-s': 'atom-postcss-sorting:run'
 
 '.platform-linux atom-text-editor':
-  'ctrl-shift-p': 'atom-postcss-sorting:run'
+  'ctrl-shift-s': 'atom-postcss-sorting:run'

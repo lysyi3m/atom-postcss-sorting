@@ -1,15 +1,16 @@
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Run atom-postcss-sorting'
+      'label': 'Run PostCSS Sorting'
       'command': 'atom-postcss-sorting:run'
     }
   ]
+
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'atom-postcss-sorting'
+      'label': 'PostCSS Sorting'
       'submenu': [
         {
           'label': 'Run'
