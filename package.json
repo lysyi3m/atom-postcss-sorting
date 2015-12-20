@@ -1,0 +1,18 @@
+{
+  "name": "atom-postcss-sorting",
+  "main": "./lib/postcss-sorting",
+  "version": "1.0.0",
+  "description": "",
+  "activationCommands": {
+    "atom-workspace": "atom-postcss-sorting:run"
+  },
+  "repository": "https://github.com/atom/atom-postcss-sorting",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "postcss": "5.0.13",
+    "postcss-sorting": "1.1.0"
+  }
+}
