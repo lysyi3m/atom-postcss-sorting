@@ -2,7 +2,7 @@
   'atom-text-editor': [
     {
       'label': 'Run PostCSS Sorting'
-      'command': 'atom-postcss-sorting:run'
+      'command': 'postcss-sorting:run'
     }
   ]
 
@@ -14,7 +14,7 @@
       'submenu': [
         {
           'label': 'Run'
-          'command': 'atom-postcss-sorting:run'
+          'command': 'postcss-sorting:run'
         }
       ]
     ]

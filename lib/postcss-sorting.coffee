@@ -16,11 +16,11 @@ module.exports =
       default: ''
 
   activate: ->
-    atom.commands.add 'atom-text-editor', 'atom-postcss-sorting:run', =>
+    atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
       @sort atom.workspace.getActivePaneItem()
 
   getSortingOptions: ->
-    config = atom.config.get 'atom-postcss-sorting'
+    config = atom.config.get 'postcss-sorting'
 
     if fs.existsSync(config.path)
       fs.readFileSync config.path.trim(), 'utf8', (error, data) ->

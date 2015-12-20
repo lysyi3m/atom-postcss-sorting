@@ -1,12 +1,12 @@
 {
-  "name": "atom-postcss-sorting",
+  "name": "postcss-sorting",
   "main": "./lib/postcss-sorting",
   "version": "1.0.0",
-  "description": "",
+  "description": "Atom editor plugin to sort CSS rules content with specified order.",
   "activationCommands": {
-    "atom-workspace": "atom-postcss-sorting:run"
+    "atom-workspace": "postcss-sorting:run"
   },
-  "repository": "https://github.com/atom/atom-postcss-sorting",
+  "repository": "https://github.com/lysyi3m/atom-postcss-sorting",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
