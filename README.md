@@ -1,4 +1,8 @@
 # atom-postcss-sorting package
+[![apm](https://img.shields.io/apm/v/postcss-sorting.svg)]()
+[![apm](https://img.shields.io/apm/dm/postcss-sorting.svg)](https://atom.io/packages/postcss-sorting)
+
+![Screenshot](https://dl.dropboxusercontent.com/u/52996591/atom-postcss-sort-capture.gif)
 
 Atom editor plugin to sort CSS rules content with specified order.
 
