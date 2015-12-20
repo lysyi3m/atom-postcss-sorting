@@ -4,14 +4,14 @@ postcss = require 'postcss'
 module.exports =
   config:
     style:
-      title: 'Format'
-      description: 'Predefined config (affect only if there is no custom config location specified)'
+      title: 'Preset'
+      description: 'Predefined config (will be used only if there is no custom config specified)'
       type: 'string'
       default: 'default'
       enum: ['default', 'zen', 'csscomb', 'yandex']
     path:
       title: 'Config path'
-      description: 'Absolute path to custom config JSON file'
+      description: 'Absolute path to a JSON file'
       type: 'string'
       default: ''
 
