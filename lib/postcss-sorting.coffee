@@ -6,11 +6,10 @@ module.exports =
   config:
     preset:
       title: 'Preset'
-      description: 'Predefined config (will be used only if there is no custom config specified)'
+      description: 'Select sorting preset (zen, csscomb or yandex)'
       type: 'string'
       default: 'default'
       enum: ['default', 'zen', 'csscomb', 'yandex']
-
 
   activate: ->
     atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
@@ -31,6 +30,6 @@ module.exports =
         editor.insertText(result.css)
       else
         fs.writeFileSync(src.path, result.css)
-      atom.notifications?.addSuccess('Successfully sorted!')
+      atom.notifications?.addSuccess("Successfully sorted using '#{preset}' preset.")
     ).catch (error) ->
-      atom.notifications?.addError("Sorting error: #{error.reason}", {detail: error.message})
+      atom.notifications?.addError("Sorting error: '#{error.reason}'.", {detail: error.message})
