@@ -1,5 +1,7 @@
 fs = require 'fs'
+path = require 'path'
 postcss = require 'postcss'
+rdf = require 'require-dot-file'
 sorting = require 'postcss-sorting'
 
 module.exports =
@@ -21,15 +23,17 @@ module.exports =
     selection = editor.getSelectedText()
 
     src =
-      path: editor.getPath()
+      filepath: editor.getPath()
       content: if selection.length then selection else fs.readFileSync(editor.getPath())
       isSelection: selection.length > 0
 
-    postcss([sorting]).process(src.content, preset).then((result) ->
+    options = rdf '.postcss-sorting.json', path.dirname ( src.filepath ) || null
+
+    postcss([sorting ( options )]).process(src.content, preset).then((result) ->
       if src.isSelection
         editor.insertText(result.css)
       else
-        fs.writeFileSync(src.path, result.css)
-      atom.notifications?.addSuccess("Successfully sorted using '#{preset}' preset.")
+        fs.writeFileSync(src.filepath, result.css)
+      atom.notifications?.addSuccess(if options then "Successfully sorted using custom '.postcss-sorting.json' file." else "Successfully sorted using '#{preset}' preset.")
     ).catch (error) ->
       atom.notifications?.addError("Sorting error: '#{error.reason}'.", {detail: error.message})

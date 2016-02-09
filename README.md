@@ -13,6 +13,12 @@ $ apm install postcss-sorting
 ```
 or open Atom and go to Preferences > Install and search for `postcss-sorting` package.
 
+## Options
+
+You can select a preset from the ones bundled-in: default, csscomb, yandex and zen.
+
+Also a file named `.postcss-sorting.json` will be searched recursively, starting from the path of the file you are sorting. If found it will override the chosen preset configuration.
+
 ## Usage
 
 In a CSS or PostCSS file, open the Command Palette (<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (OS X), <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows/Linux)) and choose `PostCSS Sorting: Run`.
