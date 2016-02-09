@@ -1,5 +1,5 @@
 '.platform-darwin atom-text-editor':
-  'cmd-shift-s': 'postcss-sorting:run'
+  'ctrl-shift-s': 'postcss-sorting:run'
 
 '.platform-win32 atom-text-editor':
   'ctrl-shift-s': 'postcss-sorting:run'
