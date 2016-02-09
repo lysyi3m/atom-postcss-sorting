@@ -17,8 +17,7 @@ or open Atom and go to Preferences > Install and search for `postcss-sorting` pa
 
 In a CSS or PostCSS file, open the Command Palette (<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (OS X), <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows/Linux)) and choose `PostCSS Sorting: Run`.
 
-Keyboard shortcuts: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> (OS X), <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> (Windows/Linux).
-
+Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
 
 ## Acknowledgements
 
