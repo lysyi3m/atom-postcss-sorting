@@ -1,7 +1,6 @@
 fs = require 'fs'
 path = require 'path'
 postcss = require 'postcss'
-rdf = require 'require-dot-file'
 sorting = require 'postcss-sorting'
 
 module.exports =
@@ -27,7 +26,14 @@ module.exports =
       content: if selection.length then selection else fs.readFileSync(editor.getPath())
       isSelection: selection.length > 0
 
-    options = rdf '.postcss-sorting.json', path.dirname ( src.filepath ) || null
+    options = null
+    optionsPath = atom.project.getDirectories()[0]?.resolve '.postcss-sorting.json'
+
+    if fs.existsSync optionsPath
+      try
+        options = JSON.parse(fs.readFileSync(optionsPath))
+      catch
+        options = null
 
     postcss([sorting ( options )]).process(src.content, preset).then((result) ->
       if src.isSelection

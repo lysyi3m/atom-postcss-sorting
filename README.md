@@ -17,7 +17,7 @@ or open Atom and go to Preferences > Install and search for `postcss-sorting` pa
 
 You can select a preset from the ones bundled-in: default, csscomb, yandex and zen.
 
-Also a file named `.postcss-sorting.json` will be searched recursively, starting from the path of the file you are sorting. If found it will override the chosen preset configuration.
+If you have a file named `.postcss-sorting.json` at the root of your project it will override the selected preset.
 
 ## Usage
 
