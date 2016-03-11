@@ -20,10 +20,10 @@ module.exports =
     config = atom.config.get 'postcss-sorting'
     preset = config.preset
     selection = editor.getSelectedText()
+    buffer = editor.getBuffer()
 
     src =
-      filepath: editor.getPath()
-      content: if selection.length then selection else fs.readFileSync(editor.getPath())
+      content: if selection.length then selection else buffer.getText()
       isSelection: selection.length > 0
 
     options = null
@@ -39,7 +39,7 @@ module.exports =
       if src.isSelection
         editor.insertText(result.css)
       else
-        fs.writeFileSync(src.filepath, result.css)
+        editor.setText(result.css)
       atom.notifications?.addSuccess(if options then "Successfully sorted using custom '.postcss-sorting.json' file." else "Successfully sorted using '#{preset}' preset.")
     ).catch (error) ->
       atom.notifications?.addError("Sorting error: '#{error.reason}'.", {detail: error.message})
