@@ -18,6 +18,7 @@ module.exports =
       type: 'boolean'
       default: true
 
+  subs: null
   activate: ->
     @subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
       @sort atom.workspace.getActivePaneItem()
