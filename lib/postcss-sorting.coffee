@@ -1,7 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-postcss = require 'postcss'
-sorting = require 'postcss-sorting'
+postcss = sorting = null
 
 module.exports =
   config:
@@ -17,6 +16,8 @@ module.exports =
       @sort atom.workspace.getActivePaneItem()
 
   sort: (editor) ->
+    postcss ?= require 'postcss'
+    sorting ?= require 'postcss-sorting'
     config = atom.config.get 'postcss-sorting'
     preset = config.preset
     selection = editor.getSelectedText()
