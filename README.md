@@ -1,4 +1,4 @@
-# atom-postcss-sorting package
+# atom-postcss-sorting
 [![apm](https://img.shields.io/apm/v/postcss-sorting.svg)]()
 [![apm](https://img.shields.io/apm/dm/postcss-sorting.svg)](https://atom.io/packages/postcss-sorting)
 
