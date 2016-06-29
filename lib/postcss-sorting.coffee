@@ -1,6 +1,8 @@
 fs = require 'fs'
 {resolve} = require 'path'
-postcss = sorting = null
+postcss = null
+sorting = null
+syntax = null
 
 module.exports =
   config:
@@ -19,6 +21,7 @@ module.exports =
       default: true
 
   subs: null
+
   activate: ->
     @subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
       @sort atom.workspace.getActivePaneItem()
@@ -32,6 +35,12 @@ module.exports =
     {path} = atom.project.getDirectories()[0]
     selection = editor.getSelectedText()
     buffer = editor.getBuffer()
+    grammar = editor.getGrammar()
+
+    if grammar.scopeName == 'source.css.postcss.sugarss'
+      syntax = require 'sugarss'
+    else
+      syntax = require 'postcss-scss'
 
     src =
       content: if selection.length then selection else buffer.getText()
@@ -53,18 +62,15 @@ module.exports =
           break
 
     postcss([ sorting (options) ])
-      .process(src.content, preset)
-      .then (result) ->
+      .process(src.content, { preset, syntax: syntax })
+      .then (result) =>
         if src.isSelection
           editor.insertText(result.css)
         else
           editor.setText(result.css)
 
         if config.notify
-          message =
-            if options
-              "custom '#{optionsPath}' file."
-            else "'#{preset}' preset."
+          message = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
           atom.notifications?.addSuccess("Successfully sorted using #{message}")
 
       .catch (error) =>
