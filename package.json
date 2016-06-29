@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "postcss": "5.0.21",
+    "postcss-scss": "0.1.8",
     "postcss-sorting": "1.6.1",
+    "sugarss": "0.1.4"
   }
 }
