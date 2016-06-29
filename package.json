@@ -1,7 +1,7 @@
 {
   "name": "postcss-sorting",
   "main": "./lib/postcss-sorting",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Atom editor plugin to sort CSS rules content with specified order.",
   "repository": "https://github.com/lysyi3m/atom-postcss-sorting",
   "license": "MIT",
