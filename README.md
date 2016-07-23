@@ -27,7 +27,7 @@ If any of the following config files exist, they will override the selected pres
 
 4. `~/.postcss-sorting.json` (in your `HOME` directory)
 
-Notifications can also be disabled from the package settings.
+Notifications and process on save can also be disabled from the package settings.
 
 ## Usage
 
