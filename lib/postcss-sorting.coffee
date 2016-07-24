@@ -24,7 +24,7 @@ module.exports =
       description: 'Process file on every save.'
       type: 'boolean'
       default: true
-  allowedGrammas: ['css', 'less', 'scss']
+  allowedGrammas: ['css', 'less', 'scss', 'postcss']
   editorObserver: null
   subs: null
 
