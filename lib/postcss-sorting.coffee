@@ -19,12 +19,33 @@ module.exports =
       description: 'Display notification on successful sort.'
       type: 'boolean'
       default: true
-
+    shouldUpdateOnSave:
+      title: 'On Save'
+      description: 'Process file on every save.'
+      type: 'boolean'
+      default: false
+  allowedGrammas: ['css', 'less', 'scss', 'postcss']
+  editorObserver: null
   subs: null
 
   activate: ->
     @subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
       @sort atom.workspace.getActivePaneItem()
+    @editorObserver = atom.workspace.observeTextEditors((editor) =>
+      @_handleEvents editor
+    )
+
+  _handleEvents: (editor) ->
+    editor.getBuffer().onWillSave =>
+      if @_isOnSave() and @_isAllowedGrama(editor)
+        @sort atom.workspace.getActivePaneItem()
+
+  _isOnSave: ->
+    config = atom.config.get 'postcss-sorting'
+    config.shouldUpdateOnSave
+
+  _isAllowedGrama: (editor) ->
+    @allowedGrammas.includes(editor.getGrammar().name.toLowerCase())
 
   sort: (editor) ->
     postcss ?= require 'postcss'
@@ -77,4 +98,6 @@ module.exports =
         message = "Sorting error: '#{error.reason}'."
         atom.notifications?.addError(message, {detail: error.message})
 
-  deactivate: -> @subs.dispose()
+  deactivate: ->
+    @subs.dispose()
+    @editorObserver.dispose()

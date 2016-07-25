@@ -8,9 +8,6 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "activationCommands": {
-    "atom-workspace": "postcss-sorting:run"
-  },
   "dependencies": {
     "postcss": "5.0.21",
     "postcss-scss": "0.1.8",
