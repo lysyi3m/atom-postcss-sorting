@@ -23,7 +23,7 @@ module.exports =
       title: 'On Save'
       description: 'Process file on every save.'
       type: 'boolean'
-      default: true
+      default: false
   allowedGrammas: ['css', 'less', 'scss', 'postcss']
   editorObserver: null
   subs: null

@@ -27,19 +27,17 @@ If any of the following config files exist, they will override the selected pres
 
 4. `~/.postcss-sorting.json` (in your `HOME` directory)
 
-Notifications and process on save can also be disabled from the package settings.
+Files can be processed "On Save" (not enabled by default).
+
+Notifications can also be disabled from the package settings.
 
 ## Usage
-
-#### If you have a "Process on save" option enabled (enabled by default):
-
-Just edit and save a CSS file.
-
-#### If you don't want a "Process on save" feature:
 
 In a CSS or PostCSS file, open the Command Palette (<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (OS X), <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> (Windows/Linux)) and choose `PostCSS Sorting: Run`.
 
 Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
+
+If you have an "On Save" option enabled just save a file. 
 
 ## Acknowledgements
 
