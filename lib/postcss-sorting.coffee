@@ -85,10 +85,12 @@ module.exports =
     postcss([ sorting (options) ])
       .process(src.content, { preset, syntax: syntax })
       .then (result) =>
+        cursorPosition = editor.getCursorScreenPosition()
         if src.isSelection
           editor.insertText(result.css)
         else
           editor.setText(result.css)
+        editor.setCursorScreenPosition(cursorPosition)
 
         if config.notify
           message = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
