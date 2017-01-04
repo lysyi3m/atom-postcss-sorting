@@ -29,6 +29,8 @@ If any of the following config files exist, they will override the selected pres
 
 Files can be processed "On Save" (not enabled by default).
 
+"On Save" can be disabled if no config file is present (not enabled by default).
+
 Notifications can also be disabled from the package settings.
 
 ## Usage
@@ -37,7 +39,7 @@ In a CSS or PostCSS file, open the Command Palette (<kbd>Cmd</kbd> + <kbd>Shift<
 
 Keyboard shortcut: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
 
-If you have an "On Save" option enabled just save a file. 
+If you have an "On Save" option enabled and "Check for config file" option disabled just save a file.
 
 ## Acknowledgements
 

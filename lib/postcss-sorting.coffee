@@ -10,20 +10,31 @@ module.exports =
       description: 'Custom path to config file.'
       type: 'string'
       default: ''
+      order: 1
     preset:
       description: 'Fallback to this preset in the absence of a config file.'
       type: 'string'
       default: 'default'
       enum: ['default', 'zen', 'csscomb', 'yandex']
+      order: 2
     notify:
       description: 'Display notification on successful sort.'
       type: 'boolean'
       default: true
+      order: 3
     shouldUpdateOnSave:
       title: 'On Save'
       description: 'Process file on every save.'
       type: 'boolean'
       default: false
+      order: 4
+    checkForConfigFile:
+      title: 'Check for config file to enable On Save processing'
+      description: "You can enable On Save globally or only if the config file exists.\n\n
+        This still requires On Save option to be enabled."
+      type: 'boolean'
+      default: false
+      order: 5
   allowedGrammas: ['css', 'less', 'scss', 'postcss']
   editorObserver: null
   subs: null
@@ -40,9 +51,42 @@ module.exports =
       if @_isOnSave() and @_isAllowedGrama(editor)
         @sort atom.workspace.getActivePaneItem()
 
+  _getOptionsPaths: ->
+    config = atom.config.get 'postcss-sorting'
+    HOME = process.env.HOME
+
+    optionsPaths = ['.postcss-sorting.json', 'package.json']
+    if config.customConfig
+      optionsPaths.push config.customConfig.replace(/^~/, HOME)
+    optionsPaths.push "#{HOME}/#{optionsPaths[0]}"
+
+    optionsPaths
+
+  _customConfigExist: ->
+    config = atom.config.get 'postcss-sorting'
+    {path} = atom.project.getDirectories()[0]
+    optionsPaths = @_getOptionsPaths()
+    configExist = false
+
+    for optionsPath in optionsPaths
+      optionsPath = resolve(path, optionsPath)
+      if fs.existsSync optionsPath
+        if optionsPath.endsWith('package.json')
+          options = JSON.parse(fs.readFileSync(optionsPath))
+          if options.postcssSortingConfig
+            configExist = true
+        else
+          configExist = true
+        break
+
+    configExist
+
   _isOnSave: ->
     config = atom.config.get 'postcss-sorting'
-    config.shouldUpdateOnSave
+    if config.checkForConfigFile
+      config.shouldUpdateOnSave && @_customConfigExist()
+    else
+      config.shouldUpdateOnSave
 
   _isAllowedGrama: (editor) ->
     @allowedGrammas.includes(editor.getGrammar().name.toLowerCase())
@@ -52,7 +96,6 @@ module.exports =
     sorting ?= require 'postcss-sorting'
     config = atom.config.get 'postcss-sorting'
     preset = config.preset
-    HOME = process.env.HOME
     {path} = atom.project.getDirectories()[0]
     selection = editor.getSelectedText()
     buffer = editor.getBuffer()
@@ -67,17 +110,14 @@ module.exports =
       content: if selection.length then selection else buffer.getText()
       isSelection: selection.length > 0
 
-    optionsPaths = ['.postcss-sorting.json', 'package.json']
-    if config.customConfig
-      optionsPaths.push config.customConfig.replace(/^~/, HOME)
-    optionsPaths.push "#{HOME}/#{optionsPaths[0]}"
+    optionsPaths = @_getOptionsPaths()
 
     for optionsPath in optionsPaths
       optionsPath = resolve(path, optionsPath)
       if fs.existsSync optionsPath
         try
           options = JSON.parse(fs.readFileSync(optionsPath))
-          if optionsPath.endsWith(optionsPaths[1])
+          if optionsPath.endsWith('package.json')
             options = options.postcssSortingConfig ? null
             throw {} unless options
           break
