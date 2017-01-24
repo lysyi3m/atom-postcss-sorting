@@ -15,7 +15,7 @@ module.exports =
       description: 'Fallback to this preset in the absence of a config file.'
       type: 'string'
       default: 'default'
-      enum: ['default', 'zen', 'csscomb', 'yandex']
+      enum: ['default', 'zen', 'csscomb', 'yandex', 'smacss']
       order: 2
     notify:
       description: 'Display notification on successful sort.'
@@ -42,9 +42,8 @@ module.exports =
   activate: ->
     @subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
       @sort atom.workspace.getActivePaneItem()
-    @editorObserver = atom.workspace.observeTextEditors((editor) =>
+    @editorObserver = atom.workspace.observeTextEditors (editor) =>
       @_handleEvents editor
-    )
 
   _handleEvents: (editor) ->
     editor.getBuffer().onWillSave =>
@@ -54,13 +53,25 @@ module.exports =
   _getOptionsPaths: ->
     config = atom.config.get 'postcss-sorting'
     HOME = process.env.HOME
-
     optionsPaths = ['.postcss-sorting.json', 'package.json']
+
     if config.customConfig
       optionsPaths.push config.customConfig.replace(/^~/, HOME)
+
     optionsPaths.push "#{HOME}/#{optionsPaths[0]}"
 
     optionsPaths
+
+  _getPredefinedConfig: ->
+    pluginPath = atom.packages.resolvePackagePath 'postcss-sorting'
+    config = atom.config.get 'postcss-sorting'
+    predefinedConfigPath = "#{pluginPath}/lib/presets/#{config.preset}.json"
+    predefinedConfig = null
+
+    if fs.existsSync predefinedConfigPath
+      predefinedConfig = JSON.parse(fs.readFileSync(predefinedConfigPath))
+
+    predefinedConfig
 
   _customConfigExist: ->
     config = atom.config.get 'postcss-sorting'
@@ -89,7 +100,8 @@ module.exports =
       config.shouldUpdateOnSave
 
   _isAllowedGrama: (editor) ->
-    @allowedGrammas.includes(editor.getGrammar().name.toLowerCase())
+    currentGrammar = editor.getGrammar().name.toLowerCase()
+    @allowedGrammas.includes currentGrammar
 
   sort: (editor) ->
     postcss ?= require 'postcss'
@@ -100,6 +112,8 @@ module.exports =
     selection = editor.getSelectedText()
     buffer = editor.getBuffer()
     grammar = editor.getGrammar()
+    predefinedConfig = @_getPredefinedConfig()
+    options = null
 
     if grammar.scopeName == 'source.css.postcss.sugarss'
       syntax = require 'sugarss'
@@ -114,6 +128,7 @@ module.exports =
 
     for optionsPath in optionsPaths
       optionsPath = resolve(path, optionsPath)
+
       if fs.existsSync optionsPath
         try
           options = JSON.parse(fs.readFileSync(optionsPath))
@@ -122,19 +137,21 @@ module.exports =
             throw {} unless options
           break
 
-    postcss([ sorting (options) ])
-      .process(src.content, { preset, syntax: syntax })
+    postcss([ sorting (options || predefinedConfig) ])
+      .process(src.content, { syntax: syntax })
       .then (result) =>
         cursorPosition = editor.getCursorScreenPosition()
+
         if src.isSelection
           editor.insertText(result.css)
         else
           editor.setText(result.css)
+
         editor.setCursorScreenPosition(cursorPosition)
 
         if config.notify
-          message = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
-          atom.notifications?.addSuccess("Successfully sorted using #{message}")
+          usedPreset = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
+          atom.notifications?.addSuccess("Successfully sorted using #{usedPreset}")
 
       .catch (error) =>
         message = "Sorting error: '#{error.reason}'."
