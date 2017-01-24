@@ -9,9 +9,9 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "postcss-sorting": "1.6.1",
     "postcss": "5.2.11",
     "postcss-scss": "0.4.0",
+    "postcss-sorting": "2.0.1",
     "sugarss": "0.2.0"
   }
 }
