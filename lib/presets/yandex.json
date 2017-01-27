@@ -3,6 +3,26 @@
     {
       "emptyLineBefore": true,
       "properties": [
+        "font",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "font-style",
+        "font-variant",
+        "font-size-adjust",
+        "font-stretch",
+        "font-effect",
+        "font-emphasize",
+        "font-emphasize-position",
+        "font-emphasize-style",
+        "font-smooth",
+        "line-height",
+        "text-size-adjust"
+      ]
+    },
+    {
+      "emptyLineBefore": true,
+      "properties": [
         "position",
         "z-index",
         "top",
@@ -21,13 +41,14 @@
         "overflow",
         "overflow-x",
         "overflow-y",
-        "overflow-scrolling",
         "clip",
         "zoom",
+        "flex-wrap",
         "flex-direction",
         "flex-order",
         "flex-pack",
-        "flex-align"
+        "flex-align",
+        "align-content"
       ]
     },
     {
@@ -76,6 +97,7 @@
         "resize",
         "cursor",
         "user-select",
+        "touch-action",
         "nav-index",
         "nav-up",
         "nav-right",
@@ -95,7 +117,6 @@
         "animation-timing-function",
         "animation-delay",
         "animation-iteration-count",
-        "animation-iteration-count",
         "animation-direction",
         "text-align",
         "text-align-last",
@@ -108,10 +129,8 @@
         "text-emphasis-position",
         "text-indent",
         "text-justify",
-        "text-transform",
         "letter-spacing",
         "word-spacing",
-        "writing-mode",
         "text-outline",
         "text-transform",
         "text-wrap",
@@ -129,10 +148,8 @@
       "emptyLineBefore": true,
       "properties": [
         "opacity",
-        "interpolation-mode",
         "color",
         "border",
-        "border-collapse",
         "border-width",
         "border-style",
         "border-color",
@@ -169,6 +186,7 @@
         "outline-color",
         "outline-offset",
         "background",
+        "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader",
         "background-color",
         "background-image",
         "background-repeat",
@@ -181,26 +199,8 @@
         "background-size",
         "box-decoration-break",
         "box-shadow",
+        "filter:progid:DXImageTransform.Microsoft.gradient",
         "text-shadow"
-      ]
-    },
-    {
-      "emptyLineBefore": true,
-      "properties": [
-        "font",
-        "font-family",
-        "font-size",
-        "font-weight",
-        "font-style",
-        "font-variant",
-        "font-size-adjust",
-        "font-stretch",
-        "font-effect",
-        "font-emphasize",
-        "font-emphasize-position",
-        "font-emphasize-style",
-        "font-smooth",
-        "line-height"
       ]
     }
   ]
