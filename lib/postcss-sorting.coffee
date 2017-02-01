@@ -115,10 +115,13 @@ module.exports =
     predefinedConfig = @_getPredefinedConfig()
     options = null
 
-    if grammar.scopeName == 'source.css.postcss.sugarss'
-      syntax = require 'sugarss'
-    else
-      syntax = require 'postcss-scss'
+    switch grammar.scopeName
+      when 'source.css.postcss.sugarss'
+        syntax = require 'sugarss'
+      when 'source.css.less'
+        syntax = require 'postcss-less'
+      else
+        syntax = require 'postcss-scss'
 
     src =
       content: if selection.length then selection else buffer.getText()
