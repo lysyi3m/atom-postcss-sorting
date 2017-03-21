@@ -57,13 +57,13 @@ module.exports =
     optionsPaths = [
       '.postcss-sorting.json',
       'postcss-sorting.json',
-      'package.json',
-      "#{HOME}/.postcss-sorting.json",
-      "#{HOME}/postcss-sorting.json"
+      'package.json'
     ]
 
     if @_config.customConfig
       optionsPaths.push @_config.customConfig.replace(/^~/, HOME)
+
+    optionsPaths.push "#{HOME}/.postcss-sorting.json", "#{HOME}/postcss-sorting.json"
 
     optionsPaths
 
