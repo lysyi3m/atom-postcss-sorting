@@ -147,6 +147,10 @@ module.exports =
     postcss([ sorting (options || predefinedConfig) ])
       .process(src.content, { syntax: syntax })
       .then (result) =>
+        shouldUpdateContent = src.content != result.css
+
+        return if !shouldUpdateContent
+
         cursorPosition = editor.getCursorScreenPosition()
 
         if src.isSelection
@@ -160,7 +164,7 @@ module.exports =
           usedPreset = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
           atom.notifications?.addSuccess("Successfully sorted using #{usedPreset}")
 
-      .catch (error) =>
+      .catch (error) ->
         message = "Sorting error: '#{error.reason}'."
         atom.notifications?.addError(message, {detail: error.message})
 
