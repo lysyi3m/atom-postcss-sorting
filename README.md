@@ -4,7 +4,7 @@
 
 ![Screenshot](https://lysyi3m-pluto.s3.amazonaws.com/dropshare/Screen-Recording-2016-03-31-02-15-19.gif)
 
-Atom editor plugin to sort CSS rules content with specified order.
+Atom editor plugin to sort CSS rules content with specified order. The following syntaxes are currently supported: CSS, SASS/SCSS and PostCSS (aka SugarSS).
 
 ## Installation
 
