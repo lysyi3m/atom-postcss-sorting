@@ -35,37 +35,42 @@ module.exports =
       type: 'boolean'
       default: false
       order: 5
-  allowedGrammas: ['css', 'scss', 'postcss']
-  editorObserver: null
-  subs: null
+
+  _allowedGrammars: ['css', 'scss', 'postcss']
+  _editorObserver: null
+  _subs: null
 
   activate: ->
-    @subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
-      @sort atom.workspace.getActivePaneItem()
-    @editorObserver = atom.workspace.observeTextEditors (editor) =>
+    @_subs = atom.commands.add 'atom-text-editor', 'postcss-sorting:run', =>
+      @_sort atom.workspace.getActivePaneItem()
+    @_editorObserver = atom.workspace.observeTextEditors (editor) =>
       @_handleEvents editor
 
   _handleEvents: (editor) ->
     editor.getBuffer().onWillSave =>
-      if @_isOnSave() and @_isAllowedGrama(editor)
-        @sort atom.workspace.getActivePaneItem()
+      if @_isOnSave() and @_isAllowedGramar(editor)
+        @_sort atom.workspace.getActivePaneItem()
 
   _getOptionsPaths: ->
-    config = atom.config.get 'postcss-sorting'
+    @_config ?= atom.config.get 'postcss-sorting'
     HOME = process.env.HOME
-    optionsPaths = ['.postcss-sorting.json', 'package.json']
+    optionsPaths = [
+      '.postcss-sorting.json',
+      'postcss-sorting.json',
+      'package.json'
+    ]
 
-    if config.customConfig
-      optionsPaths.push config.customConfig.replace(/^~/, HOME)
+    if @_config.customConfig
+      optionsPaths.push @_config.customConfig.replace(/^~/, HOME)
 
-    optionsPaths.push "#{HOME}/#{optionsPaths[0]}"
+    optionsPaths.push "#{HOME}/.postcss-sorting.json", "#{HOME}/postcss-sorting.json"
 
     optionsPaths
 
   _getPredefinedConfig: ->
+    @_config ?= atom.config.get 'postcss-sorting'
     pluginPath = atom.packages.resolvePackagePath 'postcss-sorting'
-    config = atom.config.get 'postcss-sorting'
-    predefinedConfigPath = "#{pluginPath}/lib/presets/#{config.preset}.json"
+    predefinedConfigPath = "#{pluginPath}/lib/presets/#{@_config.preset}.json"
     predefinedConfig = null
 
     if fs.existsSync predefinedConfigPath
@@ -74,13 +79,14 @@ module.exports =
     predefinedConfig
 
   _customConfigExist: ->
-    config = atom.config.get 'postcss-sorting'
+    @_config ?= atom.config.get 'postcss-sorting'
     {path} = atom.project.getDirectories()[0]
     optionsPaths = @_getOptionsPaths()
     configExist = false
 
     for optionsPath in optionsPaths
       optionsPath = resolve(path, optionsPath)
+
       if fs.existsSync optionsPath
         if optionsPath.endsWith('package.json')
           options = JSON.parse(fs.readFileSync(optionsPath))
@@ -93,21 +99,22 @@ module.exports =
     configExist
 
   _isOnSave: ->
-    config = atom.config.get 'postcss-sorting'
-    if config.checkForConfigFile
-      config.shouldUpdateOnSave && @_customConfigExist()
+    @_config ?= atom.config.get 'postcss-sorting'
+
+    if @_config.checkForConfigFile
+      @_config.shouldUpdateOnSave && @_customConfigExist()
     else
-      config.shouldUpdateOnSave
+      @_config.shouldUpdateOnSave
 
-  _isAllowedGrama: (editor) ->
+  _isAllowedGramar: (editor) ->
     currentGrammar = editor.getGrammar().name.toLowerCase()
-    @allowedGrammas.includes currentGrammar
+    @_allowedGrammars.includes currentGrammar
 
-  sort: (editor) ->
+  _sort: (editor) ->
     postcss ?= require 'postcss'
     sorting ?= require 'postcss-sorting'
-    config = atom.config.get 'postcss-sorting'
-    preset = config.preset
+    @_config ?= atom.config.get 'postcss-sorting'
+    preset = @_config.preset
     {path} = atom.project.getDirectories()[0]
     selection = editor.getSelectedText()
     buffer = editor.getBuffer()
@@ -140,6 +147,10 @@ module.exports =
     postcss([ sorting (options || predefinedConfig) ])
       .process(src.content, { syntax: syntax })
       .then (result) =>
+        shouldUpdateContent = src.content != result.css
+
+        return if !shouldUpdateContent
+
         cursorPosition = editor.getCursorScreenPosition()
 
         if src.isSelection
@@ -149,14 +160,14 @@ module.exports =
 
         editor.setCursorScreenPosition(cursorPosition)
 
-        if config.notify
+        if @_config.notify
           usedPreset = if options then "custom '#{optionsPath}' file." else "'#{preset}' preset."
           atom.notifications?.addSuccess("Successfully sorted using #{usedPreset}")
 
-      .catch (error) =>
+      .catch (error) ->
         message = "Sorting error: '#{error.reason}'."
         atom.notifications?.addError(message, {detail: error.message})
 
   deactivate: ->
-    @subs.dispose()
-    @editorObserver.dispose()
+    @_subs.dispose()
+    @_editorObserver.dispose()
