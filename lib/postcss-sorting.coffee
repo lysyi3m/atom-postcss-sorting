@@ -35,7 +35,7 @@ module.exports =
       type: 'boolean'
       default: false
       order: 5
-  allowedGrammas: ['css', 'less', 'scss', 'postcss']
+  allowedGrammas: ['css', 'scss', 'postcss']
   editorObserver: null
   subs: null
 
